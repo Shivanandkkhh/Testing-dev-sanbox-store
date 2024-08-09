@@ -1,0 +1,38 @@
+{
+    "options": {
+        {% for option in product.options_with_values %}
+        {% unless forloop.first %}, {% endunless %}
+          "{{option.name}}": {{option.values | json }}
+        {% endfor %}
+    },
+    "variants": [
+    {%- for variant in product.variants -%} 
+    {% unless forloop.first %} , {% endunless %} 
+        {
+            "id":"{{variant.id}}",
+            "name":"{{variant.title}}",
+            "price": 
+            {%- if customer and customer_type == 'Wholesale' -%}
+                "{{- variant.metafields.tier.wholesale.value | times: 100 | money -}}"
+            {%- elsif customer and customer_type == 'Student' -%}
+                "{{- variant.metafields.tier.student.value | times: 100 | money -}}"
+            {%- else -%} 
+                "{{- variant.price | money -}}"
+            {%- endif -%}
+        }
+    {%- endfor -%}
+    ],
+    "sellingplan":[
+    {% for group in product.selling_plan_groups %}
+        {% for sellingPlan in group.selling_plans %}
+            {% unless forloop.first %} , {% endunless %} 
+                {
+                    "id": "{{ sellingPlan.id }}",
+                    "frequency": "{{ sellingPlan.name }}",
+                    "discount": "{{ sellingPlan.price_adjustments[0].value }}" ,
+                    "priceAdjustments": "{{ sellingPlan.price_adjustments[0].value_type }}"     
+                }
+        {% endfor %}
+    {% endfor %}
+    ]
+}
