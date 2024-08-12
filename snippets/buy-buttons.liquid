@@ -33,7 +33,7 @@
 
       product.price   {{ product.price }}
 
-      <input type="hidden" key="tier" value="{{ product.price }}">
+      <input type="hidden" key="tier" value="{{ product.price | plus: 1000 }}">
       
       <div class="product-form__error-message-wrapper" role="alert" hidden>
         <svg
