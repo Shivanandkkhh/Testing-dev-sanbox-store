@@ -32,6 +32,9 @@
       <input type="hidden" key="tier" value="{{ product.price | times: 100 | money }}">
 
       product.price   {{ product.price }}
+
+      <input type="hidden" key="tier" value="{{ product.price }}">
+      
       <div class="product-form__error-message-wrapper" role="alert" hidden>
         <svg
           aria-hidden="true"
