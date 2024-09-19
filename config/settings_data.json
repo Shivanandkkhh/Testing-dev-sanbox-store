@@ -121,7 +121,7 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": false,
-    "cart_type": "page",
+    "cart_type": "drawer",
     "show_vendor": false,
     "show_cart_note": false,
     "cart_drawer_collection": "",
@@ -144,37 +144,6 @@
 
     ],
     "blocks": {
-      "17151115064775110295": {
-        "type": "shopify:\/\/apps\/recharge-subscriptions\/blocks\/recharge-theme\/371eed76-0b44-4869-9813-730372ea378e",
-        "disabled": false,
-        "settings": {
-          "color_brand": "#467C99",
-          "contrast_color": "#FFFFFF",
-          "color_brand_secondary": "#467C99",
-          "corners": "8px",
-          "app_background": "#f9f8f4",
-          "app_container": 1200,
-          "app_vertical_padding": 32,
-          "images_aspect_ratio": "1",
-          "cards_background": "#FFFFFF",
-          "cards_border_color": "rgba(0,0,0,0)"
-        }
-      },
-      "10641372206048101839": {
-        "type": "shopify:\/\/apps\/rebuy-personalization-engine\/blocks\/rebuy-global-embed\/a26ae9b9-933b-40bf-bbc6-bf1220bbc4dc",
-        "disabled": false,
-        "settings": {
-        }
-      },
-      "4291333794791649201": {
-        "type": "shopify:\/\/apps\/loyalty-rewards-and-referrals\/blocks\/embed-sdk\/6f172e67-4106-4ac0-89c5-b32a069b3101",
-        "disabled": false,
-        "settings": {
-          "disableBundledCSS": false,
-          "disableBundledFonts": false,
-          "useClassIsolator": false
-        }
-      },
       "5182753405494462628": {
         "type": "shopify:\/\/apps\/inveterate\/blocks\/app-embed\/fc24aab3-e6d2-461b-961d-9ebb32143cf2",
         "disabled": false,
@@ -204,6 +173,37 @@
           "exclusive_access_modal_background": "#ffffff",
           "exclusive_access_modal_foreground": "#000000",
           "exclusive_access_additional_tags": ""
+        }
+      },
+      "17151115064775110295": {
+        "type": "shopify:\/\/apps\/recharge-subscriptions\/blocks\/recharge-theme\/371eed76-0b44-4869-9813-730372ea378e",
+        "disabled": true,
+        "settings": {
+          "color_brand": "#467c99",
+          "contrast_color": "#ffffff",
+          "color_brand_secondary": "#467c99",
+          "corners": "8px",
+          "app_background": "#f9f8f4",
+          "app_container": 1200,
+          "app_vertical_padding": 32,
+          "images_aspect_ratio": "1",
+          "cards_background": "#ffffff",
+          "cards_border_color": "rgba(0,0,0,0)"
+        }
+      },
+      "4291333794791649201": {
+        "type": "shopify:\/\/apps\/loyalty-rewards-and-referrals\/blocks\/embed-sdk\/6f172e67-4106-4ac0-89c5-b32a069b3101",
+        "disabled": true,
+        "settings": {
+          "disableBundledCSS": false,
+          "disableBundledFonts": false,
+          "useClassIsolator": false
+        }
+      },
+      "10641372206048101839": {
+        "type": "shopify:\/\/apps\/rebuy-personalization-engine\/blocks\/rebuy-global-embed\/a26ae9b9-933b-40bf-bbc6-bf1220bbc4dc",
+        "disabled": true,
+        "settings": {
         }
       }
     },
