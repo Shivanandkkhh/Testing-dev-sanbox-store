@@ -2,7 +2,7 @@ const glob = require('glob');
 const path = require('path'); //get absolute paths
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //extract css from js imports
 const WebpackShellPluginNext = require('webpack-shell-plugin-next'); //execute shell commands
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts'); //remove unwanted js created while compiling scss
+// const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts'); //remove unwanted js created while compiling scss
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const stats = mode === 'development' ? 'errors-only' : { children: false }; //hide or show warning
 require('dotenv').config();
@@ -30,11 +30,13 @@ module.exports = {
   }, //webpack supports multiple entry as an object  {chunkname: entrypath}
   resolve: {
     alias: {
+      Styles: path.resolve(__dirname, 'scss/components'),
       StyleComponents: path.resolve(__dirname, 'scss/components'),
       Token: path.resolve(__dirname, 'scss/designTokens/index.scss'),
       breakpoints: path.resolve(__dirname, 'scss/components/breakpoints.scss'),
       JsComponents: path.resolve(__dirname, 'js/components'),
       SvelteComponents: path.resolve(__dirname, 'js/components/svelte'),
+      ReactComponents: path.resolve(__dirname, 'js/components/react'),
       svelte: path.resolve('node_modules', 'svelte/src/runtime')
     },
     extensions: ['.mjs', '.js', '.svelte'],
@@ -68,18 +70,18 @@ module.exports = {
           }
         ]
       },
-      {
-        test: /\.(html|svelte)$/,
-        use: {
-          loader: 'svelte-loader',
-          options: {
-            emitCss: true,
-            compilerOptions: {
-              customElement: true
-            }
-          }
-        }
-      },
+      // {
+      //   test: /\.(html|svelte)$/,
+      //   use: {
+      //     loader: 'svelte-loader',
+      //     options: {
+      //       emitCss: true,
+      //       compilerOptions: {
+      //         customElement: true
+      //       }
+      //     }
+      //   }
+      // },
       {
         // required to prevent errors from Svelte on Webpack 5+, omit on Webpack 4
         test: /node_modules\/svelte\/.*\.mjs$/,
@@ -97,7 +99,7 @@ module.exports = {
   },
 
   plugins: [
-    new RemoveEmptyScriptsPlugin(),
+    // new RemoveEmptyScriptsPlugin(),
     new MiniCssExtractPlugin({
       filename: './[name].css'
     })

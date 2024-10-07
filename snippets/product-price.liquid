@@ -1,0 +1,65 @@
+{% comment %} <br>
+{% if variant.available %}
+  {% if variant.first_available_variant.metafields.tier %}
+    {% assign customer_segment = customer.metafields.tier.customer_type.value %}
+    {% for metafield in variant.first_available_variant.metafields.tier %}
+      {% assign metafield_key = metafield[0] %}
+      {% assign metafield_value = metafield[1] %}
+      {% if customer_segment contains metafield_key %}
+        {% assign product_variant_comapre_price = variant.selected_or_first_available_variant.price
+          | money_without_trailing_zeros
+          | replace: '$', ''
+          | replace: ',', ''
+        %}
+        {% assign product_metafeild_price = metafield_value %}
+        {% assign formatted_compare_price = product_variant_comapre_price | times: 1 %}
+        {% assign metafield_price = product_metafeild_price | times: 1 %}
+
+        {% if formatted_compare_price > metafield_price %}
+          <s>{{ variant.selected_or_first_available_variant.price | money }}</s>
+        {% endif %}
+
+        <span class="product_metafeild_price">${{ metafield_price | round: 2 }}</span>
+
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if variant.first_available_variant.metafields.tier == empty %}
+    {% assign product_compare_at_price = variant.selected_or_first_available_variant.compare_at_price | money %}
+    {% assign product_price = variant.selected_or_first_available_variant.price | money %}
+    {% if product_compare_at_price > product_price %}
+      <s> {{ product_compare_at_price }}</s>
+    {% endif %}
+    {{ variant.selected_or_first_available_variant.price | money }}
+  {% endif %}
+
+{% else %}
+  <div>{{ 'products.product.sold_out' | t }}</div>
+{% endif %} {% endcomment %}
+
+
+{%  assign applicable_price = money_price %}
+{%  assign customer_segment = customer.metafields.tier.customer_type.value %}
+ {%  for metafield in  variant.metafields.tier%}
+   {%  assign metafield_key = metafield[0] | strip | downcase %}
+    {%  assign metafield_value = metafield[1] %}
+    {%  if customer_segment contains metafield_key %} 
+       {%  assign applicable_price = metafield_value | times: 100 %}
+       {% break %}
+    {%  endif %}
+{%  endfor %}
+
+
+
+{% if filter == "money" %} 
+   {{ applicable_price | money }}
+{%  elsif filter == "money_without_currency"  %} 
+   {{ applicable_price | money_without_currency }}
+{% else %}
+   {{ applicable_price }}
+{%  endif %}
+
+
+
+

@@ -13,8 +13,11 @@ export default ({ variants, selectedVariant, onUpdate, options, selectedSellingP
 
   return (
     <>
-      <div className="variant-container__opt-label">{optionName}</div>
-
+      {/* <div className="variant-container__opt-label">{optionName}</div> */}
+      
     </>
   );
 };
+
+
+

@@ -1,0 +1,6 @@
+{% assign digest = customer.email | downcase | append: shop.metafields['ekoma'].salt | md5 %}
+
+<div id='ekoma-plugin'
+	ekoma-digest='{{ digest }}'
+	ekoma-integration='{{ shop.metafields['ekoma'].integration }}'
+	customer-email='{{ customer.email | downcase }}'></div>

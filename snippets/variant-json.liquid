@@ -1,0 +1,42 @@
+{
+    "options": {
+        {% for option in product.options_with_values %}
+        {% unless forloop.first %}, {% endunless %}
+          "{{option.name}}": {{option.values | json}}
+        {% endfor %}
+    },
+    "selected": "{{ product.selected_or_first_available_variant.id }}",
+    "variants": [
+        {%- for variant in product.variants -%}
+        {%  capture mutated_price %} 
+           {%  render 'applicable-selling-price', variant: variant, money_price: variant.price, filter: "money" %}
+        {%  endcapture %}
+        {%  capture priceWithoutCurrency %} 
+           {% render 'applicable-selling-price', variant: variant, money_price: variant.price , filter: "money_without_currency" %}
+        {%  endcapture %}
+        {%  assign price = mutated_price | strip_html | strip_newlines | json %}
+        {
+            "id": "{{ variant.id }}",
+            "name": `{{ variant.title}}`,
+            "price": {{price}},
+            "priceWithoutCurrency": {{ priceWithoutCurrency | strip_html | strip_newlines | json }},
+            "compareAtPrice": "{% if mutated_price != variant_price %} {{ variant.price | money }} {% else %} {%  if variant.compare_at_price > variant.price %} {{ variant.compare_at_price | money }}{% endif %}{%  endif %}",
+            "OriginalCompareAtPrice": "{%  if variant.compare_at_price > variant.price %} {{ variant.compare_at_price | money }}{% endif %}"
+        }
+        {%- unless forloop.last -%} , {%- endunless -%}
+        {%- endfor -%}
+    ],
+    "sellingplan": [
+        {% for group in product.selling_plan_groups %}
+            {% for sellingPlan in group.selling_plans %}
+            {
+                "id": "{{ sellingPlan.id }}",
+                "frequency": "{{ sellingPlan.name }}",
+                "discount": "{{ sellingPlan.price_adjustments[0].value }}",
+                "priceAdjustments": "{{ sellingPlan.price_adjustments[0].value_type }}"     
+            }
+            {%- unless forloop.last and forloop.parentloop.last -%} , {%- endunless -%}
+            {% endfor %}
+        {% endfor %}
+    ]
+}

@@ -1,0 +1,99 @@
+{% layout none %}
+
+
+{% capture output %}
+{
+"collectionLinks":[
+{% for collection in collections %}{% capture spof_check %}{% include 'wlm-collection' with collection %}{% endcapture %}
+{% if spof_check !='Liquid error: Could not find asset snippets/wlm-collection.liquid' %}
+   {% include 'wlm-collection' with collection %}
+{% endif %}
+
+ 				{% assign customer_tags_value = collection.metafields.spofcollect.hidebytags %}
+                {% assign visibility = collection.metafields.spofcollect.hideall %}
+                {% assign customer_tags_array = collection.metafields.spofcollect.hidebytags | split: ',' %}
+               {% assign isShowTo = shop.metafields.wof_show_hide.show_hide %}
+
+                {% if isShowTo == 'show_to' %}
+                {% assign showProduct = false %}
+                {% else %}
+                {% assign showProduct = true %}
+                {% endif  %}
+
+                {% case visibility %}
+
+                  {% when "false" %}
+
+                     {% if customer_tags_value != blank %}
+
+                        {% for customer_tag_value in customer_tags_array %}
+
+
+                            {% assign customer_tag = customer_tag_value | downcase | strip %}
+                            {% for tag_value in customer.tags %}
+                                {% assign tag = tag_value | downcase | strip %}
+                                {% if tag == customer_tag %}
+                                    {% if isShowTo == 'show_to' %}
+                                        {% assign showProduct = true %}
+                                    {% else %}
+                                        {% assign showProduct = false %}
+                                    {% endif  %}
+                                    {% continue %}
+                                {% endif  %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {% assign showProduct = true %}
+                    {% endif %}
+
+                {% when "true" %}
+
+                     {% assign showProduct = false %}
+
+                  {% when "guest_user" %}
+
+                     {% unless customer %}
+                        {% assign showProduct = false %}
+                     {% else %}
+                        {% assign showProduct = true %}
+                     {% endunless %}
+
+				 {% else %}
+
+					{% if customer_tags_value != blank %}
+
+                        {% for customer_tag_value in customer_tags_array %}
+
+                            {% assign customer_tag = customer_tag_value | downcase | strip %}
+                            {% for tag_value in customer.tags %}
+                                {% assign tag = tag_value | downcase | strip %}
+                                {% if tag == customer_tag %}
+                                    {% if isShowTo == 'show_to' %}
+                                        {% assign showProduct = true %}
+                                    {% else %}
+                                        {% assign showProduct = false %}
+                                    {% endif  %}
+                                    {% continue %}
+                                {% endif  %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {% assign showProduct = true %}
+                    {% endif %}
+
+                {% endcase %}
+
+{% if showProduct == true %}
+        {
+	 "id":"{{collection.id}}"
+	 ,"title":"{% include 'esf-rem-slash' with collection.title %}"
+	 ,"handle":"{% include 'esf-rem-slash' with collection.handle %}"
+	,"showProduct":"{{showProduct}}"
+	}
+,
+{% endif %}
+{% endfor %}
+{}
+]}
+{% endcapture %}
+{{ output | strip_newlines }}

@@ -22,7 +22,7 @@ const SubscriptionContainer = ({ data = [], handleSwitch = () => {}, inputSwitch
     const calculateDiscountedPrice = (offerType, price, percentage) => {
         const numericPrice = parseFloat(price.split("$")[1]);
         const flatRate = (percentage / 100);
-
+        
         if (offerType == 'percentage') {
             const discountedPrice = numericPrice * (1 - percentage / 100);
             return discountedPrice.toFixed(2);
@@ -46,7 +46,7 @@ const SubscriptionContainer = ({ data = [], handleSwitch = () => {}, inputSwitch
             return `$${newValue.toFixed(2)}`;
         }
     };
-
+  
     const handleSelectChange = (event) => {
         const selectedOptionObject = data.find(item => item.id === event.target.value);
         setSubscription(selectedOptionObject);

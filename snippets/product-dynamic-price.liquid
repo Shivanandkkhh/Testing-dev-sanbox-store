@@ -1,0 +1,10 @@
+{%- assign customer_segment = customer.metafields.tier.customer_type.value -%}
+{%- assign selected_variant = product.selected_or_first_available_variant -%}
+{% assign metafield_value = selected_variant.metafields.tier %}
+{% for metafield in metafield_value %}
+  {% assign metafield_key = metafield[0] | strip | downcase %}
+  {% assign metafield_value = metafield[1] %}
+  {% if customer_segment contains metafield_key %}
+    <input type="hidden" key="tier" value="{{ metafield_value }}">
+  {% endif %}
+{% endfor %}

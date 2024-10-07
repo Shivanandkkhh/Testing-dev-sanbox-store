@@ -1,17 +1,32 @@
-import React, { useState, useEffect } from "react";
-// import 'StyleComponents/variant-options.scss';
+import React from "react";
 
 const OnetimeOptions = ({ selectedVariant, onUpdate, purchaseType }) => {
-  console.log(purchaseType,'purchaseType')
-  const {price} = selectedVariant;
-     return (
-      <>
-      <div className={`onetime-container__onetime-wrapper variant-container__var-wrapper ${purchaseType == 'onetime' ? 'active' : '' }`} onClick={() => {onUpdate("onetime")}}>
-            <div className="onetime-container__onetime-label">One-time Purchase</div>
-            <p className="onetime-container__oneTime-Price">{price}</p>
-        </div>
-      </>
-    );
-  };
+  const { price, compareAtPrice, OriginalCompareAtPrice } = selectedVariant;
+  // Remove dollar signs and parse the values to floats
+  const numPriceWithoutCurrency = parseFloat(price.replace('$', '')) || 0;
+  const compareAtPriceWithoutCurrency = parseFloat(compareAtPrice.replace('$', '')) || 0;
+  const OriginalComparePrice = parseFloat(OriginalCompareAtPrice.replace('$', '')) || 0;
+  const showDiscountedPrice = compareAtPriceWithoutCurrency > numPriceWithoutCurrency;
 
-  export default OnetimeOptions;
+  let finalCompareAtPrice = compareAtPrice;
+
+  if(!showDiscountedPrice){
+    finalCompareAtPrice = OriginalCompareAtPrice;
+  }
+  
+  return (
+    <>
+      <div className={`onetime-container__onetime-wrapper variant-container__var-wrapper ${purchaseType === 'onetime' ? 'active' : ''}`} onClick={() => { onUpdate("onetime") }}>
+        <div className="onetime-container__onetime-label">One-time Purchase</div>
+        <p className="onetime-container__oneTime-Price">
+    
+            <span className="sub-compare-at-price">{finalCompareAtPrice}</span>
+          
+          &nbsp;{price}
+        </p>
+      </div>
+    </>
+  );
+};
+
+export default OnetimeOptions;

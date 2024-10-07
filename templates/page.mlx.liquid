@@ -1,0 +1,72 @@
+{% render 'shogun-products', content: page %}
+
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+
+      <div class="rte">
+        {{ page.content }}
+        <div class="addCartDIV"><a href="/cart" class="addCartBTN">View cart / Checkout</a></div>
+    </div>
+  </div>
+</div>
+
+<style>  
+  .stamped-launcher-button {
+    display: none;
+  }
+
+  
+  #hubspot-messages-iframe-container {
+    visibility: hidden;
+  }
+
+  #shopify-section-footer {
+    display: none;
+  }
+  
+  .instabuy-hr {
+    display: none;
+  }
+  
+  .section-header {
+    display: none;
+  }
+  .addCartBTN {
+    background-color: #D87E56 !important;
+    color: rgb(255, 253, 253) !important; 
+    border-top-left-radius: 3px !important; 
+    border-top-right-radius: 3px !important; 
+    border-bottom-right-radius: 3px !important; 
+    border-bottom-left-radius: 3px !important; 
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    font-size: 16px !important; 
+    border: 1px solid #D87E56 !important;
+    float: right !important;
+    min-width: 250px !important;
+    text-align: center !important;
+  }
+  
+  .addCartDIV {
+    padding-right: 8px !important;
+  }
+  
+  @media only screen and (max-width: 767px) {
+  .addCartBTN {
+    min-width: 100% !important;
+  }
+  
+  .addCartDIV {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+</style>

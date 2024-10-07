@@ -1,0 +1,13 @@
+{% layout none %}
+{
+  "shopify_domain": {{shop.permanent_domain | json}},
+  "total_price": {{cart.total_price | json}},
+  "formatted_total_price": {{cart.total_price | money | json}},
+  "currency": {{cart.currency.iso_code | json}},
+  "item_count": {{cart.item_count | json}},
+  "money_format": {{shop.money_format | json}},
+  "customer_id": {{customer.id | json}},
+  "customer_email": {{customer.email | json}},
+  "customer_tags": {{customer.tags | json}},
+  "pricing_rules": {{shop.metafields.instabuy.pricing_rules | json}}
+}

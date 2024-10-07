@@ -1,0 +1,110 @@
+{% comment %} {% if variant.selling_plan_allocations == empty or variant.selling_plan_allocations == null  %}
+  <div id="product-price-container">
+    {% if variant.available %}
+        {% assign tier_value = variant.first_available_variant.metafields.tier.value %}
+      {% if variant.first_available_variant.metafields.tier or tier_value  %}
+            {% assign customer_segment = customer.metafields.tier.customer_type.value %}
+            {% for metafield in variant.first_available_variant.metafields.tier %}
+            {% assign metafield_key = metafield[0] %}
+            {% assign metafield_value = metafield[1] %}
+            {% if customer_segment contains metafield_key %}
+                {% assign product_variant_compare_price = variant.selected_or_first_available_variant.compare_at_price
+                | money_without_trailing_zeros
+                | replace: '$', ''
+                | replace: ',', ''
+                %}
+                {% assign product_metafield_price = metafield_value %}
+                {% assign formatted_compare_price = product_variant_compare_price | times: 1 %}
+                {% assign metafield_price = product_metafield_price | times: 1 %}
+
+                {% if formatted_compare_price > metafield_price %}
+                <s class="compare-price">${{ formatted_compare_price | round: 2 }}</s>
+                {% endif %}
+                <span class="product_metafield_price">${{ metafield_price | round: 2 }}</span>
+                {% break %}
+            {% endif %}
+            {% endfor %}
+      {% else %}
+            {% assign product_compare_at_price = variant.selected_or_first_available_variant.compare_at_price %}
+            {% assign product_price = variant.selected_or_first_available_variant.price %}
+            {% if product_compare_at_price > product_price %}
+            <s class="compare-price">{{ product_compare_at_price | money }}</s>
+            {% endif %}
+            &nbsp; <span class="product_metafield_price">{{ product_price | money }}</span>
+      {% endif %}
+    {% else %}
+      <div>{{ 'products.product.sold_out' | t }}</div>
+    {% endif %}
+  </div>
+
+<style>
+    .compare-price {
+      margin-right: 10px;
+    }
+</style>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var variantSelector = document.querySelector('.single-option-selector-product-template-event');
+  
+    function updatePrice(selectedVariant) {
+      var priceContainer = document.getElementById('product-price-container');
+  
+      // Clear existing content
+      priceContainer.innerHTML = '';
+  
+      // Check if the compare at price is higher than the regular price
+      if (selectedVariant.compare_at_price > selectedVariant.price) {
+        var comparePrice = document.createElement('s');
+        comparePrice.classList.add('compare-price');
+        comparePrice.innerHTML = formatMoney(selectedVariant.compare_at_price);
+        priceContainer.appendChild(comparePrice);
+      }
+  
+      // Display the regular price
+      var regularPrice = document.createElement('span');
+      regularPrice.classList.add('product_metafield_price');
+      regularPrice.innerHTML = formatMoney(selectedVariant.price);
+      priceContainer.appendChild(regularPrice);
+    }
+  
+    if (variantSelector) {
+      variantSelector.addEventListener('change', function(event) {
+        var selectedOption = event.target.value;
+  
+        // Get the product object
+        var product = {{ product | json }};
+  
+        // Find the selected variant based on the selected option value
+        var selectedVariant = product.variants.find(function(variant) {
+          return variant.option1 === selectedOption;
+        });
+  
+        if (selectedVariant) {
+          updatePrice(selectedVariant);
+        }
+      });
+  
+      // Set the initial price when the page loads
+      var initialVariant = variantSelector.options[variantSelector.selectedIndex].value;
+      var product = {{ product | json }};
+      var selectedVariant = product.variants.find(function(variant) {
+        return variant.option1 === initialVariant;
+      });
+  
+      if (selectedVariant) {
+        updatePrice(selectedVariant);
+      }
+    }
+  });
+  
+  function formatMoney(cents) {
+    var value = (cents / 100).toFixed(2);
+    return `$${value}`;
+  }
+  </script>
+
+
+{% endif %} {% endcomment %}
+
+{% render 'variant-subscription', product: product, customer: customer %}

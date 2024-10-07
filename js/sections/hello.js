@@ -1,5 +1,5 @@
 import svelteWrapper from "JsComponents/svelte-wrapper"; 
-import SampleSvelte from  "SvelteComponents/sample.svelte"
+// import SampleSvelte from  "SvelteComponents/sample.svelte"
 
 export default () => {
     svelteWrapper(SampleSvelte, 'sample-svelte' , '#svelte-data');  

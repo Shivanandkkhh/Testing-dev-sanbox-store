@@ -1,0 +1,22 @@
+
+{%  assign applicable_price = money_price %}
+{%  assign customer_segment = customer.metafields.tier.customer_type.value %}
+ {%  for metafield in  variant.metafields.tier%}
+   {%  assign metafield_key = metafield[0] | strip | downcase %}
+    {%  assign metafield_value = metafield[1] %}
+    {%  if customer_segment contains metafield_key %} 
+       {%  assign applicable_price = metafield_value | times: 100 %}
+       {% break %}
+    {%  endif %}
+{%  endfor %}
+
+{% if filter == "money" %} 
+   {{ applicable_price | money }}
+{%  elsif filter == "money_without_currency"  %} 
+   {{ applicable_price | divided_by: 100 }}
+{% else %}
+   {{ applicable_price }} 
+   {% comment %} used in plp (product grid) {% endcomment %}
+{%  endif %}
+
+

@@ -11,8 +11,6 @@
 
 - Clone this repo into your existing project
 - Install yarn through homebrew [Install Yarn](https://formulae.brew.sh/formula/yarn/).
-- Follow this doc to Install asdf & add asdf into your terminal [asdf doc](https://asdf-vm.com/guide/getting-started.html)
-- run `asdf install`
 - run `yarn`
 - Once all packages are installed , create a new >.env file from >sampleenv file
 - Get the store url and theme id that you are gonna work on 

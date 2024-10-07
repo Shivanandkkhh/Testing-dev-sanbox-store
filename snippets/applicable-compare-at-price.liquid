@@ -1,0 +1,13 @@
+
+{%  assign applicable_compare_price = variant.compare_at_price %}
+{%  assign customer_segment = customer.metafields.tier.customer_type.value %}
+ {%  for metafield in variant.metafields.tier%}
+   {%  assign metafield_key = metafield[0] | strip | downcase %}
+    {%  if customer_segment contains metafield_key  %} 
+       {%  assign applicable_compare_price = variant.price %}
+       {% break %}
+    {%  endif %}
+{%  endfor %}
+
+{{ applicable_compare_price }}
+

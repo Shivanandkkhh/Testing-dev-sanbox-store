@@ -1,0 +1,49 @@
+{% assign easylockdownLocationsCan = '' | split: ',' %}{% assign easylockdownLocationsCannot = '' | split: ',' %}{% assign easylockdownPasswordItems = '' | split: ',' %}
+{% assign easylockdownNow = 'now' | date:'%s' | times: 1 %}{% assign easylockdownNowWeekDay = easylockdownNow | date:'%u' %}{% assign easylockdownNowMonthDay = easylockdownNow | date:'%d' %}{% assign easylockdownNowHM = easylockdownNow | date:'%H%M' | times: 1 %}{% if customer %}{% assign easylockdownPlacedOrder = customer.orders.first.created_at | date:'%s' %}{% assign easylockdownOldestPlacedOrder = customer.orders.last.created_at | date:'%s' %}{% assign easylockdownDateDifference = easylockdownNow | minus: easylockdownPlacedOrder %}{% endif %}
+{% for t in customer.tags %}
+{% assign tag = t | downcase %}
+{% if tag == 'maxmet' %}{% assign elcTag1 = true %}{% endif %}
+{% if tag == 'affiliate' %}{% assign elcTag2 = true %}{% endif %}
+{% if tag == 'partner' %}{% assign elcTag3 = true %}{% endif %}
+{% if tag == 'employee' %}{% assign elcTag4 = true %}{% endif %}
+{% if tag == 'mlhc' %}{% assign elcTag5 = true %}{% endif %}
+{% endfor %}
+{% assign easylockdownSearchException = false %}
+{% unless easylockdownSearchException %}
+{% if easylockdown_filter_search.object_type == 'product' %}
+{% if easylockdown_filter_search.id == 6889553297463 %}
+{% unless customer %}
+{% if easylockdownRender %}continue{% endif %}{% continue %}
+{% else %}
+{% unless elcTag1 %}{% if easylockdownRender %}continue{% endif %}{% continue %}{% endunless %}
+{% endunless %}
+
+{% endif %}
+{% endif %}
+{% endunless %}
+{% assign easylockdownSearchException = false %}
+{% unless easylockdownSearchException %}
+{% if easylockdown_filter_search.object_type == 'product' %}
+{% if easylockdown_filter_search.id == 6622515789879 or easylockdown_filter_search.id == 6622515855415 or easylockdown_filter_search.id == 6622515888183 %}
+{% unless customer %}
+{% if easylockdownRender %}continue{% endif %}{% continue %}
+{% else %}
+{% unless elcTag2 or elcTag3 or elcTag4 %}{% if easylockdownRender %}continue{% endif %}{% continue %}{% endunless %}
+{% endunless %}
+
+{% endif %}
+{% endif %}
+{% endunless %}
+{% assign easylockdownSearchException = false %}
+{% unless easylockdownSearchException %}
+{% if easylockdown_filter_search.object_type == 'product' %}
+{% if easylockdown_filter_search.id == 6622515167287 or easylockdown_filter_search.id == 6622515331127 or easylockdown_filter_search.id == 6622515560503 %}
+{% unless customer %}
+{% if easylockdownRender %}continue{% endif %}{% continue %}
+{% else %}
+{% unless elcTag5 or elcTag4 %}{% if easylockdownRender %}continue{% endif %}{% continue %}{% endunless %}
+{% endunless %}
+
+{% endif %}
+{% endif %}
+{% endunless %}

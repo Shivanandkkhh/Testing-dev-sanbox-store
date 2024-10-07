@@ -1,0 +1,47 @@
+<div class="grid-view-item{% unless product.available %} grid-view-item--sold-out{% endunless %} product-card">
+  <a class="grid-view-item__link grid-view-item__image-container full-width-link" href="{{ product.url | within: collection }}">
+    <span class="visually-hidden">{{ product.title }}</span>
+  </a>
+
+  {% capture img_id %}ProductCardImage-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {% capture wrapper_id %}ProductCardImageWrapper-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+  {% unless product.featured_image == blank %}
+    {% include 'image-style' with image: product.featured_image, width: max_height, height: max_height, small_style: true, wrapper_id: wrapper_id, img_id: img_id %}
+  {% endunless %}
+
+  <div id="{{ wrapper_id }}" class="grid-view-item__image-wrapper product-card__image-wrapper js">
+    <div style="padding-top:{% unless product.featured_image == blank %}{{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100}}%{% else %}100%{% endunless %};">
+      <img id="{{ img_id }}"
+            class="grid-view-item__image lazyload"
+            src="{{ product.featured_image | img_url: '300x300' }}"
+            data-src="{{ img_url }}"
+            data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+            data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+            data-sizes="auto"
+            alt="">
+    </div>
+  </div>
+
+  <noscript>
+    {% capture image_size %}{{ max_height }}x{{ max_height }}{% endcapture %}
+    <img class="grid-view-item__image" src="{{ product.featured_image.src | img_url: image_size, scale: 2 }}" alt="{{ product.featured_image.alt }}" style="max-width: {{ max_height | times: product.featured_image.aspect_ratio }}px;">
+  </noscript>
+
+  <div class="h4 grid-view-item__title product-card__title" aria-hidden="true">{{ product.title }}</div>
+<br>
+  {% capture product_card_price %}
+  {%- render 'applicable-selling-price', variant: product.selected_or_first_available_variant, money_price: product.selected_or_first_available_variant.price -%}
+  {% endcapture %}
+
+  {% capture product_card_compare_price %}
+  {%- render 'applicable-compare-at-price', variant: product.selected_or_first_available_variant -%}
+  {% endcapture %}
+
+  {% assign compare_price = product_card_compare_price | plus: 0 %}
+  {% assign price = product_card_price | plus: 0 %}
+
+  <div>{% if  compare_price > price %}<s>{{ product_card_compare_price | money | strip_newlines }}</s> &nbsp;{% endif %}<span class="{% if  compare_price > price %} product-sale-color {% endif %}"> {{-  product_card_price | money | strip_newlines  -}} </span> {% if  compare_price > price %}<span class="product-sale-color"> </span> {% endif %}</div>
+
+</div>

@@ -1,0 +1,10 @@
+{% assign customer_type =  customer.metafields.tier.customer_type.value['type'] %}
+<div class="variantSubscription-desktop">
+    <variant-selector>
+      <script id="variant-data" type="text/json">
+        {
+          "data":{% render 'variant-json', product: product, customer: customer, customer_type: customer_type %}
+        }
+      </script>
+    </variant-selector> 
+</div>
