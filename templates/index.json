@@ -72,16 +72,16 @@
         "padding_bottom": 60
       }
     },
-    "1733222204edd99626": {
+    "173331577050c56844": {
       "type": "apps",
       "blocks": {
-        "umesh_dev_app_xgen_product_recommendation_9Lw8k6": {
+        "umesh_dev_app_xgen_product_recommendation_birGT3": {
           "type": "shopify://apps/umesh-dev-app/blocks/xgen_product-recommendation/1041a588-4b76-48de-a5e6-8403c6541b97",
           "settings": {}
         }
       },
       "block_order": [
-        "umesh_dev_app_xgen_product_recommendation_9Lw8k6"
+        "umesh_dev_app_xgen_product_recommendation_birGT3"
       ],
       "settings": {
         "include_margins": true
@@ -91,6 +91,6 @@
   "order": [
     "slideshow",
     "featured-collection-0",
-    "1733222204edd99626"
+    "173331577050c56844"
   ]
 }
