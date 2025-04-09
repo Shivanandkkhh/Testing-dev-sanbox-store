@@ -288,6 +288,15 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+<script>
+    window.Shopify = window.Shopify || {theme: {id: {{ theme.id }}, role: '{{ theme.role }}' } };
+    window._template = {
+        directory: "{{ template.directory }}",
+        name: "{{ template.name }}",
+        suffix: "{{ template.suffix }}"
+    };
+  </script>
+  <script type="module" blocking="render" fetchpriority="high" src="https://cdn.intelligems.io/esm/3b9f73451f30/bundle.js" async></script>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
