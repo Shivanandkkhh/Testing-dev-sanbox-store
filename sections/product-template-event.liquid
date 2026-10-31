@@ -48,7 +48,7 @@
       {% capture img_wrapper_id %}{{ zoom_img_id }}-wrapper{% endcapture %}
       {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
-      {% include 'image-style' with small_style: true, width: height, height: height, wrapper_id: img_wrapper_id, img_id: img_id %}
+      {% include 'image-style' with small_style, small_style: true, width: height, height: height, wrapper_id: img_wrapper_id, img_id: img_id %}
 
       <div id="{{ img_wrapper_id }}" class="product-single__photo-wrapper js">
         <div
@@ -145,7 +145,7 @@
         </div>
         {% endif %}
 
-        {% capture "form_classes" -%}
+        {% capture form_classes -%}
         product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}{% if section.settings.enable_payment_button and product.has_only_default_variant%} product-form--payment-button-no-variants{% endif %}
         {%- endcapture %}
 
@@ -161,7 +161,7 @@
           <div class="rc-widget-injection-parent"></div>
         <!-- End ReCharge code -->
         {%- assign optName = 'options' | append: forloop.index -%}
-        {%- assign option_values = [optName] | default: option.values -%}
+        {%- assign option_values = self[optName] | default: option.values -%}
         
         {%- for value in option_values -%}
           {% assign forloop_index = forloop.index | plus: 0  %}
@@ -174,7 +174,7 @@
               </label>
               <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
                 {%- assign optName = 'options' | append: forloop.index -%}
-                {%- assign option_values = [optName] | default: option.values -%}
+                {%- assign option_values = self[optName] | default: option.values -%}
                 {%- for value in option_values -%}
                 <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
                 {% endfor %}
@@ -586,4 +586,24 @@
     background-color: #7C8FA1;
     color: #FFF;
   }
-</style>
+</style>{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% include 'image-style' with small_style: true, width: height, height: height,
+    wrapper_id: img_wrapper_id, img_id: img_id %}"
+  to: "{% include 'image-style' with small_style, small_style: true, width: height,
+    height: height, wrapper_id: img_wrapper_id, img_id: img_id %}"
+  position: 2594..2732
+- from: '{% capture "form_classes" -%}'
+  to: "{% capture form_classes -%}"
+  position: 8110..8137
+- from: "{%- assign option_values = [optName] | default: option.values -%}"
+  to: "{%- assign option_values = self[optName] | default: option.values -%}"
+  position: 9199..9268
+- from: "{%- assign option_values = [optName] | default: option.values -%}"
+  to: "{%- assign option_values = self[optName] | default: option.values -%}"
+  position: 10005..10074
+{%- endcomment -%}

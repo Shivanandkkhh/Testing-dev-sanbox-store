@@ -50,7 +50,7 @@
           {% capture img_wrapper_id %}{{ zoom_img_id }}-wrapper{% endcapture %}
           {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
-          {% include 'image-style' with small_style: true, width: height, height: height, wrapper_id: img_wrapper_id, img_id: img_id %}
+          {% include 'image-style' with small_style, small_style: true, width: height, height: height, wrapper_id: img_wrapper_id, img_id: img_id %}
 
           <div id="{{ img_wrapper_id }}" class="product-single__photo-wrapper js">
             <div id="{{ zoom_img_id }}" style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;" class="product-single__photo{% if enable_zoom %} js-zoom-enabled{% endif %}{% if product.images.size > 1 %} product-single__photo--has-thumbnails{% endif %}{% unless featured_image == image %} hide{% endunless %}" data-image-id="{{ image.id }}"{% if enable_zoom %} data-zoom="{{ image | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
@@ -168,7 +168,7 @@
               </button>
             </div>
           {% else %}
-            {% capture "form_classes" -%}
+            {% capture form_classes -%}
               product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}{% if section.settings.enable_payment_button and product.has_only_default_variant%} product-form--payment-button-no-variants{% endif %}
             {%- endcapture %}
             {% form 'product', product, data-productid: product.id, class:form_classes, novalidate: 'novalidate' %}
@@ -181,7 +181,7 @@
                       </label>
                       <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ section.id }}-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
                         {%- assign optName = 'options' | append: forloop.index -%}
-                        {%- assign option_values = [optName] | default: option.values -%}
+                        {%- assign option_values = self[optName] | default: option.values -%}
                         {%- for value in option_values -%}
                           <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
                         {% endfor %}
@@ -521,3 +521,21 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% include 'image-style' with small_style: true, width: height, height: height,
+    wrapper_id: img_wrapper_id, img_id: img_id %}"
+  to: "{% include 'image-style' with small_style, small_style: true, width: height,
+    height: height, wrapper_id: img_wrapper_id, img_id: img_id %}"
+  position: 2836..2974
+- from: '{% capture "form_classes" -%}'
+  to: "{% capture form_classes -%}"
+  position: 9489..9516
+- from: "{%- assign option_values = [optName] | default: option.values -%}"
+  to: "{%- assign option_values = self[optName] | default: option.values -%}"
+  position: 10766..10835
+{% endcomment %}

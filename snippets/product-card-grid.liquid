@@ -8,7 +8,7 @@
   {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
   {% unless product.featured_image == blank %}
-    {% include 'image-style' with image: product.featured_image, width: max_height, height: max_height, small_style: true, wrapper_id: wrapper_id, img_id: img_id %}
+    {% include 'image-style' with image, image: product.featured_image, width: max_height, height: max_height, small_style: true, wrapper_id: wrapper_id, img_id: img_id %}
   {% endunless %}
 
   <div id="{{ wrapper_id }}" class="grid-view-item__image-wrapper product-card__image-wrapper js">
@@ -45,3 +45,17 @@
   <div>{% if  compare_price > price %}<s>{{ product_card_compare_price | money | strip_newlines }}</s> &nbsp;{% endif %}<span class="{% if  compare_price > price %} product-sale-color {% endif %}"> {{-  product_card_price | money | strip_newlines  -}} </span> {% if  compare_price > price %}<span class="product-sale-color"> </span> {% endif %}</div>
 
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% include 'image-style' with image: product.featured_image, width: max_height,
+    height: max_height, small_style: true, wrapper_id: wrapper_id, img_id: img_id
+    %}"
+  to: "{% include 'image-style' with image, image: product.featured_image, width:
+    max_height, height: max_height, small_style: true, wrapper_id: wrapper_id, img_id:
+    img_id %}"
+  position: 651..818
+{% endcomment %}
